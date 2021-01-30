@@ -10,6 +10,10 @@ interface IMessage{
 }
 
 const ChatBox = ()=>{
+    const channel=localStorage.getItem("landing_channel");
+    const organization=localStorage.getItem("landing_organization");
+    const username=localStorage.getItem("landing_username");
+
     const [message, setMessage] = useState<string>("");
     const [chatList, setChatList] = useState<IMessage[]>([]);
     const handelTextarea = (e: ChangeEvent<HTMLTextAreaElement>) =>{
@@ -25,10 +29,9 @@ const ChatBox = ()=>{
         console.log(localStorage.getItem("landing_organization"))
         
         
-        let channel = localStorage.getItem("landing_channel");
         let user = {
-            name:localStorage.getItem("landing_username"),
-            organization:localStorage.getItem("landing_organization")
+            name:username,
+            organization:organization
         }
         
         socket.emit('join', { user, channel }, (error:object) => {
@@ -49,32 +52,33 @@ const ChatBox = ()=>{
         e.preventDefault();
         let data = {
             message,
-            username:localStorage.getItem("landing_username"),
-            channel:localStorage.getItem("landing_channel")
+            username:username,
+            channel:channel
         }
         console.log(typeof socket)
         socket.emit('sendMessage', data, () => setMessage(''));
     }
-    return <div className="chatbox">
+    return <div className="chatbox-component">
             <div className="chatbox__header">
-                <h3>#slack-project</h3>
+                <h3>#{organization}</h3>
                 <span>Add new theme</span>
             </div>
-            <div className="chatbox__content">
-                <ul className="container__chat-messages">
+
+                <ul className="chatbox__chat-messages">
                     {chatList && chatList.map((item, key)=>{
                         return <li key={key}>
-                            <h3>{item.username}</h3>
-                            <span>{item.message}</span>
+                            <img src="https://serc.carleton.edu/download/images/54334/empty_user_icon_256.v2.png" alt="user-icon"/>
+                            <div>
+                                <h3>{item.username}</h3>
+                                <span>{item.message}</span>
+                            </div>
                         </li>
                     })}
                     
                 </ul>
-                
-            </div>
             <form className="chatbox__footer">
                     <textarea value={message} onChange={(e)=>{handelTextarea(e)}}></textarea>
-                    <button className="btn" onClick={(e)=>sendMessage(e)}>Send</button>
+                    <button className="btn btn-primary" onClick={(e)=>sendMessage(e)}>Send</button>
             </form>
     </div>
 }

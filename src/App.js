@@ -43,9 +43,6 @@ function App() {
             <Route path="/createnew" component={CreateNewComponent}></Route>
             <Route path="/chatbox" component={MenuChatBox}></Route>
             <Route exact path="/landing" component={LandingComponent}></Route>
-            <Route exact path="/landing/setup-team-name" component={LandingTeamComponent}></Route>
-            <Route exact path="/landing/setup-channels"  component={LandingChannelComponent}></Route>
-            <Route exact path="/landing/setup-invites"  component={LandingInvitesComponent}></Route>
             <Route path='/404' component={NotFound} />
             <Redirect from='*' to='/404' />
         </Switch>
