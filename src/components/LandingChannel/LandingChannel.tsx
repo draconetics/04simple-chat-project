@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react"
 import { Link } from "react-router-dom"
 
-import './LandingChannel.component.css'
+import './LandingChannel.css'
 
 const LandingChannel = (props:any)=> {
 

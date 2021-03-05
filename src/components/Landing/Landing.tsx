@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import './Landing.component.css'
+import { RouteComponentProps } from "react-router-dom";
+import './Landing.css'
 
-const Landing = ()=>{
+const Landing = (props:RouteComponentProps)=>{
 
 const [username, setUsername] = useState<string>("")
 const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
@@ -16,7 +16,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
             localStorage.setItem("landing_username",username);
         else
             localStorage.setItem("landing_username","user-"+new Date().getTime());  
-
+        props.history.push("/chatbox/setup-team-name");
     }
     
     return <div className="landing-component">
@@ -32,11 +32,9 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
                     mejor organizada y mas segura que el correo electronico; y puedes progralo gratis.
                 </div>
                 <input type="text" onChange={e=>handleChange(e)} placeholder="insert your name"/>
-                <Link to="/chatbox/setup-team-name">
-                    <button type="button" className="btn btn-primary" onClick={()=>saveName()}>
-                        Create new Workspace
-                    </button>
-                </Link>
+                <button type="button" className="btn btn-primary" onClick={()=>saveName()}>
+                    Create new Workspace
+                </button>
                 <span>
                     Al continuar, declaras que aceptas las Condiciones de servicio al cliente, 
                     la politica de privacidad y la politica de cookies.

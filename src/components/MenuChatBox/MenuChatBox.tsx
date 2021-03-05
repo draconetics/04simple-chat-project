@@ -1,10 +1,11 @@
 import {useState} from 'react';
-import { Route, RouteComponentProps, Switch } from "react-router-dom";
-import ChatBox from "../ChatBox.component/ChatBox.component";
-import LandingTeamComponent from '../LandingTeam.component/LandingTeam.component';
-import LandingChannelComponent from '../LandingChannel.component/LandingChannel.component';
-import LandingInvitesComponent from '../LandingInvites.component/LandingInvites.component'
-import './MenuChatBox.component.css'
+import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
+import ChatBox from "../ChatBox/ChatBox";
+import LandingTeamComponent from '../LandingTeam/LandingTeam';
+import LandingChannelComponent from '../LandingChannel/LandingChannel';
+import LandingInvitesComponent from '../LandingInvites/LandingInvites'
+import './MenuChatBox.css'
+
 
 type TParams =  { id: string };
 const MenuChatBox = ({match}: RouteComponentProps<TParams>)=>{
@@ -12,6 +13,34 @@ const MenuChatBox = ({match}: RouteComponentProps<TParams>)=>{
     const [organization, setOrganization] = useState<string>(localStorage.getItem("landing_organization")||"");
     const [channel, setChannel] = useState<string>("");
 
+    const channelStored=localStorage.getItem("landing_channel");
+    const organizationStored=localStorage.getItem("landing_organization");
+    const usernameStored = localStorage.getItem("landing_username");
+
+    const renderComponent = (props:RouteComponentProps)=>{
+
+        if(!usernameStored){
+            return <Redirect to="/" />
+        }
+        if(!organizationStored){
+            return <LandingTeamComponent 
+                        {...props}
+                        setOrganization={setOrganization} 
+                        organization={organization}
+                    />;
+        }
+        if(!channelStored){
+            return  <LandingChannelComponent 
+                        {...props}
+                        setChannel={setChannel} 
+                        channel={channel}
+                    />;
+        }       
+
+        return <ChatBox  {...props}></ChatBox>;
+    }
+
+     
     return <div className="menu-chatbox-component">
         <div className="menu-chatbox__searcher"></div>
         <div className="menu-chatbox__row">
@@ -37,14 +66,13 @@ const MenuChatBox = ({match}: RouteComponentProps<TParams>)=>{
                 <Switch>
                     <Route exact={true} 
                             path={match.url} 
-                            render={()=><ChatBox/>}></Route>
+                            render={(props)=>renderComponent(props)}></Route>
                     <Route  exact 
                             path={`${match.url}/setup-team-name`} 
-                            render={()=><LandingTeamComponent setOrganization={setOrganization} organization={organization}>
-                            </LandingTeamComponent>}></Route>
+                            render={(props)=>renderComponent(props)}></Route>
                     <Route  exact 
                             path={`${match.url}/setup-channel`}  
-                            render={()=><LandingChannelComponent setChannel={setChannel} channel={channel}/>}></Route>
+                            render={(props)=>renderComponent(props)}></Route>
                     <Route  exact 
                             path={`${match.url}/setup-invites`}  
                             component={LandingInvitesComponent}></Route>

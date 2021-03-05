@@ -1,6 +1,6 @@
 import { ChangeEvent} from 'react'
 import { Link } from 'react-router-dom'
-import './LandingTeam.component.css'
+import './LandingTeam.css'
 
 const LandingTeam = (props:any) =>{
     

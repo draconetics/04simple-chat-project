@@ -1,7 +1,7 @@
-import {ChangeEvent, FormEvent, useEffect, useState} from 'react'
-import './ChatBox.component.css'
+import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import './ChatBox.css';
 import io from "socket.io-client";
-
+import { nanoid } from 'nanoid'
 
 const ENDPOINT = 'http://localhost:4000/';
 interface IMessage{
@@ -9,13 +9,17 @@ interface IMessage{
     message:string;
 }
 
-const ChatBox = ()=>{
+const ChatBox = (props:any)=>{
+
+    console.log(props);
     const channel=localStorage.getItem("landing_channel");
     const organization=localStorage.getItem("landing_organization");
     const username=localStorage.getItem("landing_username");
-
+    
     const [message, setMessage] = useState<string>("");
     const [chatList, setChatList] = useState<IMessage[]>([]);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+
     const handelTextarea = (e: ChangeEvent<HTMLTextAreaElement>) =>{
         //console.log(e.target.value);
         setMessage(e.target.value)
@@ -25,13 +29,12 @@ const ChatBox = ()=>{
     
 
     useEffect(() => {
-        console.log(localStorage.getItem("landing_channel"))
-        console.log(localStorage.getItem("landing_organization"))
-        
-        
+
+       
         let user = {
-            name:username,
-            organization:organization
+            username:username,
+            organization:organization,
+            
         }
         
         socket.emit('join', { user, channel }, (error:object) => {
@@ -42,10 +45,20 @@ const ChatBox = ()=>{
 
     useEffect(() => {
         socket.on('message', (message:any)=> {
-            console.log(chatList)
+            console.log("message received")
+            console.log(message)
             setChatList(chatList => [ ...chatList, message ]);
         });
+
+        socket.on('loadMessages', (messageList:any)=> {
+            console.log("message received")
+            console.log(messageList)
+            setChatList(chatList => [ ...chatList, ...messageList ]);
+        });
         
+        socket.on("onlineUsers", ({ users }:any) => {
+            setOnlineUsers(users);
+        });
     });
 
     const sendMessage = (e: FormEvent<HTMLButtonElement>)=>{
@@ -58,21 +71,50 @@ const ChatBox = ()=>{
         console.log(typeof socket)
         socket.emit('sendMessage', data, () => setMessage(''));
     }
+
+    const logout = () => {
+        alert('logout');
+        localStorage.clear();
+        socket.emit('close',username);
+        props.history.push('/');
+    };
+
     return <div className="chatbox-component">
             <div className="chatbox__header">
+                <h2>Welcome 
+                    <span>{username}</span> 
+                    <button type="button" className="chatbox__logout" onClick={()=>logout()}>
+                        logout
+                    </button>
+                </h2>
                 <h3>#{organization}</h3>
                 <span>Add new theme</span>
+                <ul className="chatbox__users">
+                    <h3>Users online : </h3>
+                    {onlineUsers && onlineUsers.map((item:any)=>{
+                        return <li key={nanoid()}>
+                            <div>
+                                <span className="online-dot"></span>
+                                <span className="online-user">{item.username}</span>
+                            </div>
+                        </li>
+                    })}
+                    
+                </ul>
             </div>
-
                 <ul className="chatbox__chat-messages">
-                    {chatList && chatList.map((item, key)=>{
-                        return <li key={key}>
-                            <img src="https://serc.carleton.edu/download/images/54334/empty_user_icon_256.v2.png" alt="user-icon"/>
+                    {chatList && chatList.map((item)=>{
+                        return (
+                        <li key={nanoid()} 
+                            className={username === item.username ? 'local' : ''}
+                        >
+                            <img src="/user.png" alt="user-icon"/>
                             <div>
                                 <h3>{item.username}</h3>
                                 <span>{item.message}</span>
                             </div>
                         </li>
+                        );
                     })}
                     
                 </ul>
