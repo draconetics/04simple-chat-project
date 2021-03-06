@@ -18,7 +18,7 @@ describe('<CheckBox />', () => {
     //expect(snapshot.toJSON()).toMatchSnapshot();
   });
 
-  it('it should toggle checkbox label after click event', () => {
+  it('should toggle checkbox label after click event', () => {
     expect(wrapper.text()).toEqual('Off');
 
     wrapper.find('input').simulate('change');

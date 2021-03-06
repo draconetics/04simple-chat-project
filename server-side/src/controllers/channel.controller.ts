@@ -1,5 +1,6 @@
 import Channel from '../models/channel'
-import User from '../models/user'
+import User from '../models/user';
+//import User from '../models/user'
 
 /* export const createChannelAndUser = async(name:string, organization:string,
                                         channelName:string)=>{
@@ -16,13 +17,19 @@ import User from '../models/user'
     return channel;
 } */
 
-export const createChannel = async(channelName:string)=>{
-    let existChanel = await Channel.find({ name: channelName });
-    if(existChanel.length == 0){
-        let channel = new Channel({name:channelName});
-        await channel.save(function(error){
+export const createChannel = async(channel:string)=>{
+    
+    let existChanel = await Channel.find({ name: channel });
+    if(existChanel.length === 0){
+        let newChannel = new Channel({name:channel});
+        await newChannel.save(function(error){
           if(error)console.log(error);
           console.log("channel created")
         })
+        return newChannel;
+    }else{
+        return existChanel[0];
     }
 }
+
+

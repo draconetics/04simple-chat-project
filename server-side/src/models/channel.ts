@@ -6,9 +6,7 @@ const channelSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    messages:[
-        { type: Schema.Types.ObjectId, ref: 'Message' }
-    ]
+
 }, {  timestamps: true })
 
 

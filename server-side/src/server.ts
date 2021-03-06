@@ -1,11 +1,12 @@
+import { Response} from 'express'
 import userRoutes from './routes/user.route'
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const path = require('path');
 
-import { Response, Request} from 'express'
-import { addUser } from './controllers/user.controller';
+
+//import { addUser } from './controllers/user.controller';
 // Create a new express app instance
 const app = express();
 app.use(cors())

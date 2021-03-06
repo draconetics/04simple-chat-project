@@ -1,12 +1,12 @@
 import {Router} from 'express'
-import { 
+/* import { 
     createUser,
     sample
-} from '../controllers/user.controller'
+} from '../controllers/user.controller' */
 
 const router = Router();
 
-router.post('/api/user', createUser);
-router.get('/sample', sample)
+/* router.post('/api/user', createUser);
+router.get('/sample', sample) */
 
 export default router;

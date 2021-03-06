@@ -1,9 +1,8 @@
 export const notFoundHandler = (
   request,
-  response
+  response,
 ) => {
+  const message = 'Resource not found';
 
-  const message = "Resource not found";
-
-  return response.status(404).send({status:404,message});
+  return response.status(404).send({ status: 404, message });
 };
