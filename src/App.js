@@ -13,7 +13,7 @@ import MenuChatBox from './components/MenuChatBox/MenuChatBox';
 function App() {
 
   return (
-    <>
+    <div className="app" style={{backgroundColor:'#f4ede4', height:'100vh'}}>
       <BrowserRouter>
         <Switch>
           <Route exact path='/' component={LandingComponent} />
@@ -23,7 +23,7 @@ function App() {
         </Switch>
       </BrowserRouter>
 
-    </>
+    </div>
   );
 }
 
