@@ -1,14 +1,13 @@
 import {useState} from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
-import ChatBox from "../ChatBox/ChatBox";
-import LandingTeamComponent from '../LandingTeam/LandingTeam';
-import LandingChannelComponent from '../LandingChannel/LandingChannel';
-import LandingInvitesComponent from '../LandingInvites/LandingInvites'
+import ChatBox from "../../components/ChatBox/ChatBox";
+import LandingTeamComponent from '../../components/LandingTeam/LandingTeam';
+import LandingChannelComponent from '../../components/LandingChannel/LandingChannel';
+import LandingInvitesComponent from '../../components/LandingInvites/LandingInvites'
 import './MenuChatBox.css'
 
-
-type TParams =  { id: string };
-const MenuChatBox = ({match}: RouteComponentProps<TParams>)=>{
+//type TParams =  { id: string };
+const MenuChatBox = ({match}: RouteComponentProps)=>{
 
     const [organization, setOrganization] = useState<string>(localStorage.getItem("landing_organization")||"");
     const [channel, setChannel] = useState<string>("");
@@ -37,7 +36,7 @@ const MenuChatBox = ({match}: RouteComponentProps<TParams>)=>{
                     />;
         }       
 
-        return <ChatBox  {...props}></ChatBox>;
+        return <ChatBox  {...props} />;
     }
 
      

@@ -1,7 +1,4 @@
-import { createChannel } from "./channel.controller";
-import { createMessage } from "./message.controller";
-import { createUser, getChannelOfUser, getOnlineUsers, logoutUser, getUsers } from "./user.controller";
-import { userTable, channelTable, messageTable, chatDatabaseInstance as database } from './operations.controller';
+import {  chatDatabaseInstance as database } from './operations.controller';
 
 module.exports = function(io:any){
     io.on('connect', (socket:any) => {

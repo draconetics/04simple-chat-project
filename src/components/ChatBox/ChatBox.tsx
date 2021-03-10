@@ -1,17 +1,17 @@
 import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import './ChatBox.css';
 import io from "socket.io-client";
 import { nanoid } from 'nanoid'
+import { RouteComponentProps } from 'react-router';
+import './ChatBox.css';
 
-const ENDPOINT = 'http://localhost:4000/';
+const ENDPOINT = 'http://localhost:5000/';
 interface IMessage{
     username:string;
     message:string;
 }
 
-const ChatBox = (props:any)=>{
+const ChatBox: React.FC<RouteComponentProps> = ({history})=>{
 
-    console.log(props);
     const channel=localStorage.getItem("landing_channel");
     const organization=localStorage.getItem("landing_organization");
     const username=localStorage.getItem("landing_username");
@@ -76,7 +76,7 @@ const ChatBox = (props:any)=>{
         alert('logout');
         localStorage.clear();
         socket.emit('close',username);
-        props.history.push('/');
+        history.push('/');
     };
 
     return <div className="chatbox-component">

@@ -2,18 +2,24 @@ import { ChangeEvent} from 'react'
 import { Link } from 'react-router-dom'
 import './LandingTeam.css'
 
-const LandingTeam = (props:any) =>{
-    
+interface ILandingTeam {
+    organization: string;
+    setOrganization: (data:string)=>void;
+}
+
+
+const LandingTeam: React.FC<ILandingTeam> = ({setOrganization, organization}) =>{
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
         console.log(e.target.value)
-        props.setOrganization(e.target.value)
+        setOrganization(e.target.value)
     }
 
     const saveOrganization = () =>{
-        if(props.organization === "")
+        if(organization === "")
             localStorage.setItem('landing_organization', "org-" + new Date().getTime());
         else
-            localStorage.setItem('landing_organization', props.organization);
+            localStorage.setItem('landing_organization', organization);
     }
 
     return <div className="landing-team-component step">
@@ -23,7 +29,7 @@ const LandingTeam = (props:any) =>{
         <p>Este sera el nombre de tu espacio de trabajo de Slack, elige 
             algo que tu equipo pueda reconocer.
         </p>
-        <input type="text" onChange={(e)=>handleChange(e)} value={props.organization} placeholder="Insert a organization or team"/>
+        <input type="text" onChange={(e)=>handleChange(e)} value={organization} placeholder="Insert a organization or team"/>
         <Link to="/chatbox/setup-channel">
             <button type="button" className="btn btn-primary" onClick={()=>saveOrganization()}>
                 Continue

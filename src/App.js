@@ -4,11 +4,9 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import HomeComponent from './components/Home';
-import CreateNewComponent from './components/CreateNew';
-import LandingComponent from './components/Landing/Landing';
-import NotFound from './components/NotFound';
-import MenuChatBox from './components/MenuChatBox/MenuChatBox';
+import LandingPage from './pages/Landing/Landing';
+import NotFound from './pages/NotFound';
+import MenuChatBox from './pages/MenuChatBox/MenuChatBox';
 
 function App() {
 
@@ -16,7 +14,7 @@ function App() {
     <div className="app" style={{backgroundColor:'#f4ede4', height:'100vh'}}>
       <BrowserRouter>
         <Switch>
-          <Route exact path='/' component={LandingComponent} />
+          <Route exact path='/' component={LandingPage} />
           <Route path='/chatbox' component={MenuChatBox} />
           <Route path="/404" component={NotFound} />
           <Redirect from="*" to="/404" />

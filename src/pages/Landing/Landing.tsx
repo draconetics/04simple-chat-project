@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import './Landing.css'
 
-const Landing = (props:RouteComponentProps)=>{
+const Landing: React.FC<RouteComponentProps> = ({history})=>{
 
 const [username, setUsername] = useState<string>("")
 const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
@@ -16,13 +16,16 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
             localStorage.setItem("landing_username",username);
         else
             localStorage.setItem("landing_username","user-"+new Date().getTime());  
-        props.history.push("/chatbox/setup-team-name");
+        history.push("/chatbox/setup-team-name");
     }
     
     return <div className="landing-component">
         <div className="container">
         <div className="landing__logo">
-            <img src="https://ericleeclark.com/wp-content/uploads/2019/02/Slack_Technologies_Logo.svg_.png" alt="slack-logo"/>
+            <img
+              src="https://ericleeclark.com/wp-content/uploads/2019/02/Slack_Technologies_Logo.svg_.png"
+              alt="slack-logo"
+            />
         </div>
         <div className="landing__showcase">
             <div className="landing__showcase-description">
@@ -41,7 +44,10 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
                 </span>
             </div>
             <div className="landing__image">
-                <img src="https://a.slack-edge.com/80588/marketing/img/feature/partner-zoom/img-stay-on-schedule.png" alt="slack-image-banner"/>
+                <img
+                  src="https://a.slack-edge.com/80588/marketing/img/feature/partner-zoom/img-stay-on-schedule.png"
+                  alt="slack-partner"
+                />
             </div>
         </div> {/* end landing__showcase */}
         </div> {/* end container */}

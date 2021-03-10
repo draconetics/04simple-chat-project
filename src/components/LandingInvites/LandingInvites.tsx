@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
-const LandingInvites = (props:any)=>{
-    console.log(props);
+const LandingInvites = ()=>{
     return <div className="landing-inviting-components step">
         <h3>Step 3 of 3</h3>
         <h2>
@@ -20,7 +19,6 @@ const LandingInvites = (props:any)=>{
         <Link to="/chatbox">
             Omit this step
         </Link>
-        
     </div>
 }
 

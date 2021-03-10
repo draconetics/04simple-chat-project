@@ -3,21 +3,24 @@ import { Link } from "react-router-dom"
 
 import './LandingChannel.css'
 
-const LandingChannel = (props:any)=> {
+interface ILandingChannel {
+    channel: string;
+    setChannel: (data:string)=>void;
+}
 
-    console.log(props);
+const LandingChannel: React.FC<ILandingChannel> = ({channel, setChannel})=> {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
         console.log(e.target.value)
-        if(props.channel.length<=80)
-            props.setChannel(e.target.value)
+        if(channel.length<=80)
+            setChannel(e.target.value)
     }
 
     const saveChannel = ()=>{
-        if(props.channel === "")
+        if(channel === "")
             localStorage.setItem('landing_channel', "ch-" + new Date().getTime());    
         else
-            localStorage.setItem('landing_channel', props.channel);
+            localStorage.setItem('landing_channel', channel);
     }
 
     return <div className="landing-channel-component step">
@@ -28,7 +31,7 @@ const LandingChannel = (props:any)=> {
         </p>
         <div className="lc__input">
             <input type="text" onChange={(e)=>handleChange(e)}/>
-            <span>{80-props.channel.length}</span>
+            <span>{80 - channel.length}</span>
         </div>
         <Link to="/chatbox/setup-invites">
             <button type="button" className="btn btn-primary" onClick={()=>saveChannel()}>
